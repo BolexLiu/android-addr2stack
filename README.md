@@ -35,15 +35,16 @@ ADDR2LINE_BINARY='' # full path to arm-linux-androideabi-addr2line
 LIBRARY='' # full path to your .so file
 
 def main():
-    print '功能：利用 android-addr2line 将 Android Native Crash 地址批量转换成代码堆栈。'
+    print '本脚本会利用 android-addr2line 将 Android Native Crash 地址批量转换成代码堆栈。'
     if len(ADDR2LINE_BINARY) == 0 or len(LIBRARY) == 0:
-        print '请先编辑本脚本，配置 ADDR2LINE_BINARY & LIBRARY 路径（so文件路径)。'
+        print '大佬，请先编辑本脚本，配置 ADDR2LINE_BINARY & LIBRARY 路径（so 文件路径)再使用。'
         return
     print 'LIBRARY = [%s]' % LIBRARY
     print 'ADDR2LINE_BINARY = [%s]' % ADDR2LINE_BINARY
-    print '贴入堆栈信息并按下回车，CTRL + D 提交。CTRL + C 退出。'
+    print '大佬，贴入堆栈信息并按下回车，CTRL + D 提交。CTRL + C 退出。'
 
     lines = []
+
     while True:
         try:
             line = raw_input()
@@ -53,11 +54,13 @@ def main():
             break
         lines.append(line)
 
-    print ''
+  
 
     addresses = []
     functions = []
     files = []
+
+    print '\n'
 
     for line in lines:
         address = get_address(line)
@@ -69,7 +72,7 @@ def main():
                 files.append(source[1])
 
     if len(addresses) == 0 or len(files) == 0:
-        print '没有从 %s中找到映射地址。' % os.path.basename(LIBRARY)
+        print '没有从 %s 中找到映射地址。' % os.path.basename(LIBRARY)
         return
 
     longest_address = len(max(addresses, key=len))
@@ -93,6 +96,5 @@ def get_source_line(address):
 
 if __name__ == '__main__':
     main()
-
 
 ```
